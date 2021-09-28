@@ -1,0 +1,73 @@
+import random
+import os
+
+
+words = {
+	'broke' : ['Into pieces','Said about someone with no money','State of something fragile after falling on the ground'],
+	'train' : ['Type of vehicle that runs on rails','Mass transportation system','Can be used to carry cargo'],
+	'brain' : ['Human organ','Where the thoughts come from','Humans are known for have the most evolved one'],
+	'building' : ['Kind of construction','Place where many companies do their activities','Big citties are full of'],
+	'fruits' : ['Healthy kind of food','Apples and oranges belongs to this group','One famous way for trees to spread their seeds'],
+	'barricade' : ['Commonly used to protect soldiers','Made of sand bags','Needs to be massive to be effective'],
+	'travel' : ['People like to do that on vacations','The act to visit another city, state os country','Executives do this a lot'],
+	'marble' : ['A kind of rock','Commonly used as a building material','Many sculptures are made out of this material'],
+	'fail' : ['Is said about a system that can't accomplish a task','When a student can't achieve a minimun score at an exam','When a machine don't work'],
+	'snail' : ['Carry his own house','Moves very slowly','Commonly found in gardens'],
+	'pipe' : ['Used to delivery water trhu a house or building','Long and circular plastic tube','Is also the name for an object use to smoke tabaco '],
+	'trouble' : ['Problem','When things goes very wrong','Dificult to solve a situation'],
+	'bankruptcy' : ['When a person or company can't pay his debts','Usualy impose by a court order','A legal process used to resolve debts problems']
+}
+
+
+def getWord():
+	num = random.randint(0, len(words)-1)
+	i = 0
+	for key in words:
+		if num == key:
+			return key
+		i = i + 1		
+	return False
+	
+def readKeys():
+	letters = "abcdefghijklmnopqrstuvwxyz"
+	while True:
+		key = input('Enter a key or quit to exit: ')
+		if key == "exit":
+			return False
+		if len(key) == 1 and letters.find(key.lower()) != -1:
+			return key
+		return " "
+		
+def clearScreen():
+	os.system('cls' if os.name == 'nt' else 'clear')
+	
+def drawScreen(word, keys, tries):
+	clearScreen()
+	hangman = ["_O_\n/|\\\n_|_\n/ \\"]
+	hangman += ["\n/|\\\n_|_\n/ \\"]
+	hangman += ["\n |\\\n_|_\n/ \\"]
+	hangman += ["\n   \\\n_|_\n/ \\"]
+	hangman += ["\n   \n_|_\n/ \\"]
+	hangman += ["\n   \n   \n/ \\"]
+	hangman += ["\n   \n   \n  \\"]
+	hangman += ["\n   \n   \n   "]
+	if tries > 0:
+		print("\n\n")
+		spaces = "_ " * len(word)
+		print(spaces)
+		print("\n You have {} tries left.".format(tries))
+	print(hangman[tries])
+
+def start():
+	word = getWord()
+	tries = 7
+	if word != False:
+		while True and tries > 0:
+			key = readKeys()
+			if key == False:
+				return False
+			keys + [key]
+			if word.find(key.lower()) == -1:
+				tries = tries - 1
+			drawScreen(word, keys, tries)		
+	
